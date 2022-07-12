@@ -6,20 +6,17 @@
 \usage{
 sim_lm(
   n = 25,
-  each = 1,
   b0 = list(b0 = 0),
   bj = list(b1 = 0, b2 = 0),
   distj = list(rnorm, rnorm),
   paramsj = list(c(0, 0), c(1, 1)),
-  m_error = 0,
-  v_error = 1,
+  diste = rnorm,
+  paramse = c(0, 1),
   prior = 0
 )
 }
 \arguments{
 \item{n}{number of units}
-
-\item{each}{number of observation per unit}
 
 \item{b0}{intercept}
 
@@ -29,9 +26,9 @@ sim_lm(
 
 \item{paramsj}{a list of parameter vectors matching distj by position}
 
-\item{m_error}{mean of error terms}
+\item{diste}{distribution for error term}
 
-\item{v_error}{variance of error terms}
+\item{paramse}{parameters for the error terms distribution}
 
 \item{prior}{indicates whether df will serve as main data (0) or prior data (1)}
 }

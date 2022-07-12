@@ -1,13 +1,12 @@
 #' Simulate from a Linear Model
 #'
 #' @param n number of units
-#' @param each number of observation per unit
 #' @param b0 intercept
 #' @param bj a list of coefficients
 #' @param distj a list of distributions matching bj by position
 #' @param paramsj a list of parameter vectors matching distj by position
-#' @param m_error mean of error terms
-#' @param v_error variance of error terms
+#' @param diste distribution for error term
+#' @param paramse parameters for the error terms distribution
 #' @param prior indicates whether df will serve as main data (0) or prior data (1)
 #'
 #' @return a data set with an ID for each unit, Y as the dependent variable and X1:Xj
@@ -20,13 +19,12 @@
 #' @examples
 #' main_lm_data <- sim_lm()
 sim_lm <- function(n = 25,
-                   each = 1,
                    b0=list(b0 = 0),
                    bj=list(b1 = 0, b2 = 0),
                    distj = list(rnorm, rnorm),
                    paramsj = list(c(0, 0), c(1,1)),
-                   m_error = 0,
-                   v_error = 1,
+                   diste = rnorm,
+                   paramse = c(0, 1),
                    prior = 0){
   #Bind local vaiables to function
   Y <- NULL
@@ -45,12 +43,12 @@ sim_lm <- function(n = 25,
 
   #Build data df from distribution and parameter
   for (i in seq_along(bj)){
-    xj[[i]] <- rep(f(n, distj[[i]], paramsj[[i]]), each)
+    xj[[i]] <- f(n, distj[[i]], paramsj[[i]])
 
   }
 
   #Build error vector data frame
-  eps <- data.frame(eps = rep(stats::rnorm(n, m_error, sqrt(v_error)), each))
+  eps <- data.frame(eps = f(n, diste, paramse))
 
   #Combine dfs into one df
   df_mod <- cbind(ID, b0, bj, xj, eps)
