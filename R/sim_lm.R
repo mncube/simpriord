@@ -5,6 +5,9 @@
 #' @param bj a list of coefficients
 #' @param distj a list of distributions matching bj by position
 #' @param paramsj a list of parameter vectors matching distj by position
+#' @param intj a nested list specifying an interaction between two variable.
+#' The list should take the form list(int1 = list(coef = 1, v1 = "X1", v2 = "X2"))
+#' to specify an interaction between X1 and X2 with a regression coefficient of 1.
 #' @param diste distribution for error term
 #' @param paramse parameters for the error terms distribution
 #' @param prior indicates whether df will serve as main data (0) or prior data (1)
@@ -17,12 +20,17 @@
 #' @export
 #'
 #' @examples
+#' #Build df using default parameters
 #' main_lm_data <- sim_lm()
+#'
+#' #Build df with an interaction
+#' main_lm_data_in <- sim_lm(intj = list(int1 = list(coef = 5, v1 = "X1", v2 = "X2")))
 sim_lm <- function(n = 25,
                    b0=list(b0 = 0),
-                   bj=list(b1 = 0, b2 = 0),
+                   bj=list(b1 = 1, b2 = 1),
                    distj = list(rnorm, rnorm),
                    paramsj = list(c(0, 0), c(1,1)),
+                   intj = NULL,
                    diste = rnorm,
                    paramse = c(0, 1),
                    prior = 0){
@@ -47,21 +55,41 @@ sim_lm <- function(n = 25,
 
   }
 
+  #Build data df to help construct interactions
+  if (!is.null(intj)){
+    length_int <- length(intj)
+    intj <- data.frame(intj)
+  }
+
   #Build error vector data frame
   eps <- data.frame(eps = f(n, diste, paramse))
 
   #Combine dfs into one df
-  df_mod <- cbind(ID, b0, bj, xj, eps)
+  if (is.null(intj)){
+    df_mod <- cbind(ID, b0, bj, xj, eps)
+  } else {
+    df_mod <- cbind(ID, b0, bj, xj, intj, eps)
+  }
 
   #Initialize dependent variable column of df
   df_mod$Y <- NA
 
   #Generate outcomes using loop
   for (i in 1:n){
-    df_mod$Y[[i]] <- df_mod$b0[[i]] +
-      sum(df_mod[i,paste0("b", 1:length(bj))] *
-            df_mod[i,paste0("X", 1:length(xj))]) +
-      df_mod$eps[[i]]
+    if (is.null(intj)){
+      df_mod$Y[[i]] <- df_mod$b0[[i]] +
+        sum(df_mod[i,paste0("b", 1:length(bj))] *
+              df_mod[i,paste0("X", 1:length(xj))]) +
+        df_mod$eps[[i]]
+    } else {
+      df_mod$Y[[i]] <- df_mod$b0[[i]] +
+        sum(df_mod[i,paste0("b", 1:length(bj))] *
+              df_mod[i,paste0("X", 1:length(xj))]) +
+        sum(df_mod[i,paste0("int", 1:length_int, ".coef")]*
+              df_mod[i,df_mod[,paste0("int", 1:length_int, ".v1")][[i]]]*
+              df_mod[i,df_mod[,paste0("int", 1:length_int, ".v2")][[i]]]) +
+        df_mod$eps[[i]]
+    }
   }
 
   #Select ID, dependent variable, and independent variables

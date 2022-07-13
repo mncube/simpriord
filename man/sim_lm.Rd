@@ -7,9 +7,10 @@
 sim_lm(
   n = 25,
   b0 = list(b0 = 0),
-  bj = list(b1 = 0, b2 = 0),
+  bj = list(b1 = 1, b2 = 1),
   distj = list(rnorm, rnorm),
   paramsj = list(c(0, 0), c(1, 1)),
+  intj = NULL,
   diste = rnorm,
   paramse = c(0, 1),
   prior = 0
@@ -26,6 +27,10 @@ sim_lm(
 
 \item{paramsj}{a list of parameter vectors matching distj by position}
 
+\item{intj}{a nested list specifying an interaction between two variable.
+The list should take the form list(int1 = list(coef = 1, v1 = "X1", v2 = "X2"))
+to specify an interaction between X1 and X2 with a regression coefficient of 1.}
+
 \item{diste}{distribution for error term}
 
 \item{paramse}{parameters for the error terms distribution}
@@ -40,5 +45,9 @@ independent variables
 Simulate from a Linear Model
 }
 \examples{
+#Build df using default parameters
 main_lm_data <- sim_lm()
+
+#Build df with an interaction
+main_lm_data_in <- sim_lm(intj = list(int1 = list(coef = 5, v1 = "X1", v2 = "X2")))
 }
