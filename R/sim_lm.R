@@ -41,6 +41,23 @@ sim_lm <- function(n = 25,
   #Source: https://stackoverflow.com/questions/56691580/how-to-make-probability-distribution-an-argument-of-a-function-in-r
   f <- function(k,g,...){g(k,...)}
 
+  #Check inputs for mistmatched lengths
+  l_bj <- length(bj)
+  l_distj <- length(distj)
+  l_paramsj <- length(paramsj)
+
+  if (l_bj != l_distj){
+    stop("bj and distj must be the same length", call. = TRUE)
+  }
+
+  if (l_bj != l_paramsj){
+    stop("bj and paramsj must be the same length", call. = TRUE)
+  }
+
+  if (l_distj != l_paramsj){
+    stop("distj and paramsj must be the same length", call. = TRUE)
+  }
+
   #Turn coefficients and IDs into dfs
   b0 <- data.frame(b0)
   bj <- data.frame(bj)
