@@ -73,6 +73,8 @@ sim_lm <- function(n = 25,
   #Build data df from distribution and parameter
   for (i in seq_along(bj)){
     xj[[i]] <- f(n, distj[[i]], paramsj[[i]])
+
+    #Transform variables
     if (is.null(transrhs[[i]])){
       xj[[i]] <- do.call(transj[[i]], list(xj[[i]]))
     } else {
