@@ -5,6 +5,8 @@
 #' @param bj a list of coefficients
 #' @param distj a list of distributions matching bj by position
 #' @param paramsj a list of parameter vectors matching distj by position
+#' @param transj a list of transformations (infix transformations must specify transrhs)
+#' @param transrhs a list of right-hand-sides for transj (set to NULL if transj has no rhs)
 #' @param intj a nested list specifying an interaction between two variable.
 #' The list should take the form list(int1 = list(coef = 1, v1 = "X1", v2 = "X2"))
 #' to specify an interaction between X1 and X2 with a regression coefficient of 1.
@@ -30,6 +32,8 @@ sim_lm <- function(n = 25,
                    bj=list(b1 = 1, b2 = 1),
                    distj = list(rnorm, rnorm),
                    paramsj = list(c(0, 0), c(1,1)),
+                   transj = list(`^`, `^`),
+                   transrhs = list(1,1),
                    intj = NULL,
                    diste = rnorm,
                    paramse = c(0, 1),
@@ -69,7 +73,11 @@ sim_lm <- function(n = 25,
   #Build data df from distribution and parameter
   for (i in seq_along(bj)){
     xj[[i]] <- f(n, distj[[i]], paramsj[[i]])
-
+    if (is.null(transrhs[[i]])){
+      xj[[i]] <- do.call(transj[[i]], list(xj[[i]]))
+    } else {
+      xj[[i]] <- do.call(transj[[i]], list(xj[[i]], transrhs[[i]]))
+    }
   }
 
   #Build data df to help construct interactions

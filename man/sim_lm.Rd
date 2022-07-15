@@ -10,6 +10,8 @@ sim_lm(
   bj = list(b1 = 1, b2 = 1),
   distj = list(rnorm, rnorm),
   paramsj = list(c(0, 0), c(1, 1)),
+  transj = list(`^`, `^`),
+  transrhs = list(1, 1),
   intj = NULL,
   diste = rnorm,
   paramse = c(0, 1),
@@ -26,6 +28,10 @@ sim_lm(
 \item{distj}{a list of distributions matching bj by position}
 
 \item{paramsj}{a list of parameter vectors matching distj by position}
+
+\item{transj}{a list of transformations (infix transformations must specify transrhs)}
+
+\item{transrhs}{a list of right-hand-sides for transj (set to NULL if transj has no rhs)}
 
 \item{intj}{a nested list specifying an interaction between two variable.
 The list should take the form list(int1 = list(coef = 1, v1 = "X1", v2 = "X2"))
