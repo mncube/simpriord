@@ -1,3 +1,35 @@
+#' Title
+#'
+#' @param n_m number of units (main data)
+#' @param b0_m intercept (main data)
+#' @param bj_m a list of coefficients (main data)
+#' @param distj_m a list of distributions matching bj_m by position (main data)
+#' @param paramsj_m a list of parameter vectors matching distj_m by position (main data)
+#' @param transj_m a list of transformations (infix transformations must specify transrhs_m) (main data)
+#' @param transrhs_m a list of right-hand-sides for transj_m (set to NULL if transj_m has no rhs) (main data)
+#' @param intj_m a nested list specifying an interaction between two variable.
+#' The list should take the form list(int1 = list(coef = 1, v1 = "X1", v2 = "X2")) (main data)
+#' @param diste_m distribution for error term (main data)
+#' @param paramse_m parameters for the error terms distribution (main data)
+#' @param n_p number of units (previous data)
+#' @param b0_p intercept (previous data)
+#' @param bj_p a list of coefficients (previous data)
+#' @param distj_p a list of distributions matching bj_p by position (previous data)
+#' @param paramsj_p a list of parameter vectors matching distj_p by position (previous data)
+#' @param transj_p a list of transformations (infix transformations must specify transrhs_p) (previous data)
+#' @param transrhs_p a list of right-hand-sides for transj_p (set to NULL if transj_p has no rhs) (previous data)
+#' @param intj_p a nested list specifying an interaction between two variable.
+#' The list should take the form list(int1 = list(coef = 1, v1 = "X1", v2 = "X2")) (previous data)
+#' @param diste_p distribution for error term (previous data)
+#' @param paramse_p parameters for the error terms distribution (previous data)
+#' @param with_prior if with_prior = 1, generate data frames that contain main and previous data
+#' @param frames The number of data frame to generate
+#'
+#' @return A list of data frames
+#' @export
+#'
+#' @examples
+#' five_frames <- sim_lm_dfs()
 sim_lm_dfs <- function(n_m = 25,
                            b0_m=list(b0 = 0),
                            bj_m=list(b1 = 1, b2 = 1),

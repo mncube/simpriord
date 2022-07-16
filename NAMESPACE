@@ -2,5 +2,6 @@
 
 export("%>%")
 export(sim_lm)
+export(sim_lm_dfs)
 importFrom(magrittr,"%>%")
 importFrom(stats,rnorm)
