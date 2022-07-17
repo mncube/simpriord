@@ -3,5 +3,7 @@
 export("%>%")
 export(sim_lm)
 export(sim_lm_dfs)
+export(sim_lm_run)
 importFrom(magrittr,"%>%")
+importFrom(stats,reformulate)
 importFrom(stats,rnorm)
