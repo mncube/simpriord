@@ -1,4 +1,4 @@
-#' Simulate from a Linear Model
+#' Simulate Data from a Linear Model
 #'
 #' @param n number of units
 #' @param b0 intercept
@@ -15,8 +15,9 @@
 #' @param prior indicates whether df will serve as main data (0) or prior data (1)
 #' @param mod_name model alias
 #'
-#' @return a data set with an ID for each unit, Y as the dependent variable and X1:Xj
-#' independent variables
+#' @return A list object.  First element is a data set with an ID for each unit, Y as the dependent variable and X1:Xj
+#' independent variables (plus interactions if specified).  Second element is the
+#' model alias and input parameters (b0, b1:bj, prior indicator, plus interactions).
 #'
 #' @importFrom stats rnorm
 #'
@@ -42,6 +43,7 @@ sim_lm <- function(n = 25,
                    mod_name = "mod"){
   #Bind local vaiables to function
   Y <- NULL
+  `df_mod$prior` <- NULL
 
   #Get helper function for building distributions
   #Source: https://stackoverflow.com/questions/56691580/how-to-make-probability-distribution-an-argument-of-a-function-in-r
@@ -126,9 +128,15 @@ sim_lm <- function(n = 25,
   df_mod <- df_mod %>% dplyr::select(ID, Y, tidyselect::starts_with("X")) %>%
     dplyr::mutate(prior = prior)
 
-  #Attach model name
-  df_mod <- cbind(df_mod, mod_name)
+  #Collect model and parameter information
+  df_info <- cbind(b0, bj, mod_name, df_mod$prior) %>%
+    dplyr::rename(prior = `df_mod$prior`) %>%
+    dplyr::distinct()
+
+  #Collect output
+  Output <- list("df_mod" = df_mod,
+                 "df_info" = df_info)
 
   #Return df
-  return(df_mod)
+  return(Output)
   }

@@ -2,7 +2,7 @@
 % Please edit documentation in R/sim_lm.R
 \name{sim_lm}
 \alias{sim_lm}
-\title{Simulate from a Linear Model}
+\title{Simulate Data from a Linear Model}
 \usage{
 sim_lm(
   n = 25,
@@ -47,11 +47,12 @@ to specify an interaction between X1 and X2 with a regression coefficient of 1.}
 \item{mod_name}{model alias}
 }
 \value{
-a data set with an ID for each unit, Y as the dependent variable and X1:Xj
-independent variables
+A list object.  First element is a data set with an ID for each unit, Y as the dependent variable and X1:Xj
+independent variables (plus interactions if specified).  Second element is the
+model alias and input parameters (b0, b1:bj, prior indicator, plus interactions).
 }
 \description{
-Simulate from a Linear Model
+Simulate Data from a Linear Model
 }
 \examples{
 #Build df using default parameters
