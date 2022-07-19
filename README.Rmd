@@ -69,7 +69,8 @@ Use the sim_lm_dfs function to generate a list of data frames each of which cont
 and previous data.
 
 ```{r}
-lm_dfs <- sim_lm_dfs(frames = 3)
+lm_dfs <- sim_lm_dfs(frames = 3,
+                     mod_name = list("mod1", "mod2", "mod3"))
 
 str(lm_dfs)
 
