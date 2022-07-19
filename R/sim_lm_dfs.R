@@ -1,4 +1,4 @@
-#' Title
+#' Simulate Datasets from a Linear Model
 #'
 #' @param n_m number of units (main data)
 #' @param b0_m intercept (main data)
@@ -26,7 +26,7 @@
 #' @param frames The number of data frame to generate
 #' @param mod_name A list (with length equal to frames) of model aliases
 #'
-#' @return A list of data frames
+#' @return A nested list of data frames (see sim_lm for more information)
 #' @export
 #'
 #' @examples
@@ -55,7 +55,8 @@ sim_lm_dfs <- function(n_m = 25,
                            frames = 2,
                            mod_name = list("mod1", "mod2")) {
   #Initialize lists to store dfs
-  all_dfs <- vector(mode = "list", length = frames)
+  all_df_mod <- vector(mode = "list", length = frames)
+  all_df_info <- vector(mode = "list", length = frames)
 
   #Loop through and make dfs based on function parameters
   for (i in 1:frames){
@@ -93,13 +94,20 @@ sim_lm_dfs <- function(n_m = 25,
                              mod_name = mni)
 
       #Combine main and prior data into one df
-      df <- rbind(df, df_prior)
+      df_mod <- rbind(df$df_mod, df_prior$df_mod)
+      df_info <- rbind(df$df_info, df_prior$df_info) %>%
+        dplyr::distinct()
     }
 
-    #Collect dfs in a list
-    all_dfs[[i]] <- df
+    #Collect dfs in lists
+    all_df_mod[[i]] <- df_mod
+    all_df_info[[i]] <- df_info
   }
 
+  #Collect output
+  Output <- list("df_mod" = all_df_mod,
+                 "df_info" = all_df_info)
+
   #Return dfs
-  return(all_dfs)
+  return(Output)
   }
