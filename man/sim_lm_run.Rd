@@ -12,12 +12,12 @@ sim_lm_run(df_list, ...)
 \item{...}{pass parameters to brm function}
 }
 \value{
-a list of brm model fits
+a list of of objects containing brm model fits and model names
 }
 \description{
 Run brm Linear Models on List of Data Frames
 }
 \examples{
 linear_mod_dfs <- sim_lm_dfs()
-linear_mod_fits <- sim_lm_run(df_list = linear_mod_dfs, iter = 3)
+linear_mod_fits <- sim_lm_run(df_list = list(linear_mod_dfs), iter = 3)
 }
