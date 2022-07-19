@@ -59,24 +59,29 @@ Use the sim_lm function to simulate one data frame from a linear model.
 ```{r example}
 library(simpriord)
 
+# Get data to run one linear model
 lm_df <- sim_lm()
 
-head(lm_df)
+# Preview data
+head(lm_df$df_mod)
+
+# See model name and coefficients used to produce data
+print(lm_df$df_info)
 ```
 
 
-Use the sim_lm_dfs function to generate a list of data frames each of which contain main
-and previous data.
+Use the sim_lm_dfs function to generate a list of data frames each of which contain main and previous data.
 
 ```{r}
 lm_dfs <- sim_lm_dfs(frames = 3,
                      mod_name = list("mod1", "mod2", "mod3"))
 
-str(lm_dfs)
+# Preview data for the second model
+head(lm_dfs$df_mod[[2]])
+tail(lm_dfs$df_mod[[2]])
 
-head(lm_dfs[[2]])
-
-tail(lm_dfs[[2]])
+#See model name and coefficients used to produce second model data
+print(lm_dfs$df_info[[2]])
 ```
 
 ## Citations
