@@ -15,7 +15,8 @@ sim_lm(
   intj = NULL,
   diste = rnorm,
   paramse = c(0, 1),
-  prior = 0
+  prior = 0,
+  mod_name = "mod"
 )
 }
 \arguments{
@@ -42,6 +43,8 @@ to specify an interaction between X1 and X2 with a regression coefficient of 1.}
 \item{paramse}{parameters for the error terms distribution}
 
 \item{prior}{indicates whether df will serve as main data (0) or prior data (1)}
+
+\item{mod_name}{model alias}
 }
 \value{
 a data set with an ID for each unit, Y as the dependent variable and X1:Xj

@@ -13,6 +13,7 @@
 #' @param diste distribution for error term
 #' @param paramse parameters for the error terms distribution
 #' @param prior indicates whether df will serve as main data (0) or prior data (1)
+#' @param mod_name model alias
 #'
 #' @return a data set with an ID for each unit, Y as the dependent variable and X1:Xj
 #' independent variables
@@ -37,7 +38,8 @@ sim_lm <- function(n = 25,
                    intj = NULL,
                    diste = rnorm,
                    paramse = c(0, 1),
-                   prior = 0){
+                   prior = 0,
+                   mod_name = "mod"){
   #Bind local vaiables to function
   Y <- NULL
 
@@ -66,6 +68,7 @@ sim_lm <- function(n = 25,
   b0 <- data.frame(b0)
   bj <- data.frame(bj)
   ID <- data.frame(ID = 1:n)
+  mod_name <- data.frame(mod_name = mod_name)
 
   #Initialize data df
   xj <- data.frame(matrix(vector(), n, length(bj)))
@@ -122,6 +125,9 @@ sim_lm <- function(n = 25,
   #Select ID, dependent variable, and independent variables
   df_mod <- df_mod %>% dplyr::select(ID, Y, tidyselect::starts_with("X")) %>%
     dplyr::mutate(prior = prior)
+
+  #Attach model name
+  df_mod <- cbind(df_mod, mod_name)
 
   #Return df
   return(df_mod)
