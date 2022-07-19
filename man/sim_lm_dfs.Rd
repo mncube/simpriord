@@ -26,7 +26,8 @@ sim_lm_dfs(
   diste_p = rnorm,
   paramse_p = c(0, 1),
   with_prior = 1,
-  frames = 2
+  frames = 2,
+  mod_name = list("mod1", "mod2")
 )
 }
 \arguments{
@@ -75,6 +76,8 @@ The list should take the form list(int1 = list(coef = 1, v1 = "X1", v2 = "X2")) 
 \item{with_prior}{if with_prior = 1, generate data frames that contain main and previous data}
 
 \item{frames}{The number of data frame to generate}
+
+\item{mod_name}{A list (with length equal to frames) of model aliases}
 }
 \value{
 A list of data frames
