@@ -129,7 +129,7 @@ sim_lm <- function(n = 25,
     dplyr::mutate(prior = prior)
 
   #Collect model and parameter information
-  df_info <- cbind(b0, bj, mod_name, df_mod$prior) %>%
+  df_info <- cbind(b0, bj, df_mod$prior, mod_name) %>%
     dplyr::rename(prior = `df_mod$prior`) %>%
     dplyr::distinct()
 
