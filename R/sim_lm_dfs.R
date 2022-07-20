@@ -24,7 +24,7 @@
 #' @param paramse_p parameters for the error terms distribution (previous data)
 #' @param with_prior if with_prior = 1, generate data frames that contain main and previous data
 #' @param frames The number of data frame to generate
-#' @param mod_name A list (with length equal to frames) of model aliases
+#' @param mod_name A list of model aliases
 #'
 #' @return A nested list of data frames (see sim_lm for more information)
 #' @export
@@ -53,7 +53,7 @@ sim_lm_dfs <- function(n_m = 25,
                            paramse_p = c(0, 1),
                            with_prior = 1,
                            frames = 2,
-                           mod_name = list("mod1", "mod2")) {
+                           mod_name = list("mod1")) {
   #Initialize lists to store dfs
   all_df_mod <- vector(mode = "list", length = frames)
   all_df_info <- vector(mode = "list", length = frames)
@@ -62,7 +62,11 @@ sim_lm_dfs <- function(n_m = 25,
   for (i in 1:frames){
 
     #Get mod name
-    mni <- mod_name[[i]]
+    if (length(mod_name) == 1){
+      mni <- unlist(mod_name)
+    } else {
+      mni <- mod_name[[i]]
+    }
 
     #Get each df for main data
     df <- sim_lm(n = n_m,

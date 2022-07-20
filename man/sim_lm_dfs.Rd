@@ -27,7 +27,7 @@ sim_lm_dfs(
   paramse_p = c(0, 1),
   with_prior = 1,
   frames = 2,
-  mod_name = list("mod1", "mod2")
+  mod_name = list("mod1")
 )
 }
 \arguments{
@@ -77,7 +77,7 @@ The list should take the form list(int1 = list(coef = 1, v1 = "X1", v2 = "X2")) 
 
 \item{frames}{The number of data frame to generate}
 
-\item{mod_name}{A list (with length equal to frames) of model aliases}
+\item{mod_name}{A list of model aliases}
 }
 \value{
 A nested list of data frames (see sim_lm for more information)
