@@ -5,8 +5,7 @@ sim_lm_comp <- function(fit_obj){
   `2` <- NULL
 
   #Initialize list to store fit dfs
-  all_main <- vector(mode = "list", length = length(fit_obj$fits))
-  all_prior <- vector(mode = "list", length = length(fit_obj$info))
+  all_prior <- all_main <- vector(mode = "list", length = length(fit_obj$fits))
 
   #Get fits
   for (i in 1:length(fit_obj$fits)){
@@ -19,9 +18,9 @@ sim_lm_comp <- function(fit_obj){
     for (j in 1:length(mod_fits)){
 
       #Initialize list to store results
-      res_main <- vector(mode = "list", length = length(mod_fits))
-      res_prior <- vector(mode = "list", length = length(mod_fits))
-
+      if (j == 1){
+        res_prior <- res_main <- vector(mode = "list", length = length(mod_fits))
+      }
 
       #Tidy model fit
       tidy_fit <- broom.mixed::tidy(mod_fits[[j]])
@@ -38,7 +37,7 @@ sim_lm_comp <- function(fit_obj){
                            mod_name) %>%
           dplyr::rename(parameter = `1`) %>%
           dplyr::slice_head(n = -1)
-        comp_prior <- NULL
+        comp_prior <- as.data.frame("No Prior")
       } else {
         comp_main <- cbind(tidy_fit,
                            t(mod_infos[[j]][mod_infos[[j]]$prior == 0,]),
@@ -53,13 +52,14 @@ sim_lm_comp <- function(fit_obj){
       }
 
       #Return results from each simulation
-    if (length(mod_fits) == 1){
       res_main[[j]] <- comp_main
       res_prior[[j]] <- comp_prior
-    } else {
-      res_main[[j]] <- rbind(res_main, comp_main)
-      res_prior[[j]] <- rbind(res_prior, comp_prior)
-    }
+
+      if (j == length(mod_fits)){
+        res_main <- do.call(rbind, res_main)
+        res_prior <- do.call(rbind, res_prior)
+      }
+
     }
 
     #Store across simulations
@@ -68,7 +68,6 @@ sim_lm_comp <- function(fit_obj){
   }
 
   #Collect output in list
-  ouput <- list("main" = all_main,
+  output <- list("main" = all_main,
                 "prior" = all_prior)
   }
-
