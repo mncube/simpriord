@@ -1,8 +1,44 @@
+#' Compare Linear Model Performance Metrics
+#'
+#' @param fit_obj A list of model fits built from the sim_lm_run function
+#'
+#' @return a nested list of performance metric data frames.  One top level list for the main data
+#' and one top level list for the prior data.  Within each top level list, there is one data frame of
+#' performance metrics for each model.
+#'
+#' @importFrom stats sd var
+#'
+#' @export
 sim_lm_comp <- function(fit_obj){
 
   #Create local bindings for variables
   `1` <- NULL
   `2` <- NULL
+  K <- NULL
+  bias <- NULL
+  bias_j_sq <- NULL
+  bias_mcse <- NULL
+  conf.high <- NULL
+  conf.low <- NULL
+  covered <- NULL
+  estimate <- NULL
+  g_t <- NULL
+  k_t <- NULL
+  mse <- NULL
+  mse_mcse <- NULL
+  parameter <- NULL
+  rmse <- NULL
+  rmse_j <- NULL
+  rmse_mcse <- NULL
+  s_sq_t_j <- NULL
+  s_t <- NULL
+  t_bar <- NULL
+  t_bar_j <- NULL
+  term <- NULL
+  true_param <- NULL
+  var_mcse <- NULL
+  var_t <- NULL
+  var <- NULL
 
   #Initialize list to store fit dfs
   all_prior <- all_main <- vector(mode = "list", length = length(fit_obj$fits))
