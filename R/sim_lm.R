@@ -44,6 +44,7 @@ sim_lm <- function(n = 25,
   #Bind local vaiables to function
   Y <- NULL
   `df_mod$prior` <- NULL
+  `.` <- NULL
 
   #Get helper function for building distributions
   #Source: https://stackoverflow.com/questions/56691580/how-to-make-probability-distribution-an-argument-of-a-function-in-r
@@ -125,13 +126,49 @@ sim_lm <- function(n = 25,
   }
 
   #Select ID, dependent variable, and independent variables
-  df_mod <- df_mod %>% dplyr::select(ID, Y, tidyselect::starts_with("X")) %>%
-    dplyr::mutate(prior = prior)
+  if (is.null(intj)){
+    df_mod <- df_mod %>% dplyr::select(ID, Y, tidyselect::starts_with("X")) %>%
+      dplyr::mutate(prior = prior)
+  } else {
+    for (i in 1:length_int){
+      #Create 1 row data frame with the two interaction vars
+      temp_int <- df_mod %>% dplyr::select(tidyselect::starts_with(paste0("int", i, ".v"))) %>%
+        utils::head(., 1)
+
+      #Extrace names of both vars and get their cat
+      temp1 <- temp_int[[1]]
+      temp2 <- temp_int[[2]]
+      tempx <- paste0(temp1, temp2)
+
+      #Initialize new col for interaction value
+      df_mod$new <- NA
+
+      #Update name of new variable
+      colnames(df_mod)[which(names(df_mod) == "new")] <- tempx
+
+      #Fill in interaction values
+      for (j in 1:nrow(df_mod)){
+        df_mod[j, tempx] <- df_mod[j, temp1]*df_mod[j,temp2]
+      }
+      }
+    df_mod <- df_mod %>% dplyr::select(ID, Y, tidyselect::starts_with("X"),
+                                         tidyselect::starts_with("X")) %>%
+        dplyr::mutate(prior = prior)
+    }
 
   #Collect model and parameter information
-  df_info <- cbind(b0, bj, df_mod$prior, mod_name) %>%
-    dplyr::rename(prior = `df_mod$prior`) %>%
-    dplyr::distinct()
+  if (is.null(intj)){
+    df_info <- cbind(b0, bj, df_mod$prior, mod_name) %>%
+      dplyr::rename(prior = `df_mod$prior`) %>%
+      dplyr::distinct()
+  } else {
+    df_info <- cbind(b0, bj, intj, df_mod$prior, mod_name) %>%
+      dplyr::select(-tidyselect::contains(".v")) %>%
+      dplyr::rename(prior = `df_mod$prior`) %>%
+      dplyr::distinct()
+    }
+
+
 
   #Collect output
   Output <- list("df_mod" = df_mod,
