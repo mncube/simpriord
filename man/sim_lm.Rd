@@ -9,7 +9,7 @@ sim_lm(
   b0 = list(b0 = 0),
   bj = list(b1 = 1, b2 = 1),
   distj = list(rnorm, rnorm),
-  paramsj = list(c(0, 0), c(1, 1)),
+  paramsj = list(c(0, 1), c(0, 1)),
   transj = list(`^`, `^`),
   transrhs = list(1, 1),
   intj = NULL,
