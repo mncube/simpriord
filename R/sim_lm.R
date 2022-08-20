@@ -91,7 +91,9 @@ sim_lm <- function(n = 25,
     }
 
     #Transform variables
-    if (is.null(transrhs[[i]])){
+    if (is.null(transj[[i]]) & is.null(transrhs[[i]])){
+      xj[[i]] <- xj[[i]]
+    }else if (is.null(transrhs[[i]])){
       xj[[i]] <- do.call(transj[[i]], list(xj[[i]]))
     } else {
       xj[[i]] <- do.call(transj[[i]], list(xj[[i]], transrhs[[i]]))
