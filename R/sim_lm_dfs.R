@@ -101,6 +101,10 @@ sim_lm_dfs <- function(n_m = 25,
       df_mod <- rbind(df$df_mod, df_prior$df_mod)
       df_info <- rbind(df$df_info, df_prior$df_info) %>%
         dplyr::distinct()
+    } else {
+      #Get main data as df_mod
+      df_mod <- df$df_mod
+      df_info <- df$df_info
     }
 
     #Collect dfs in lists
