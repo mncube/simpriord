@@ -4,10 +4,12 @@
 \alias{sim_lm_comp}
 \title{Compare Linear Model Performance Metrics}
 \usage{
-sim_lm_comp(fit_obj)
+sim_lm_comp(fit_obj, with_prior = 1)
 }
 \arguments{
 \item{fit_obj}{A list of model fits built from the sim_lm_run function}
+
+\item{with_prior}{Set to 0 if data does not contain prior data.}
 }
 \value{
 a nested list of performance metric data frames.  One top level list for the main data
