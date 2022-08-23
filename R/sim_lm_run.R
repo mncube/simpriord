@@ -30,7 +30,7 @@ sim_lm_run <- function(df_list, ...){
     fits <- vector(mode = "list", length = length(df_mods$df_mod))
     info <- vector(mode = "list", length = length(df_mods$df_info))
 
-    for(j in 1:length(df_mods)){
+    for(j in 1:length(df_mods$df_mod)){
       inform <- df_mods$df_info[[j]]
 
       #Prepare this iterations data frame from df_list
