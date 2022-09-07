@@ -16,6 +16,7 @@ Imports:
     broom.mixed,
     dplyr,
     magrittr,
+    simglm,
     stats,
     tidyselect
 URL: https://github.com/mncube/simpriord
