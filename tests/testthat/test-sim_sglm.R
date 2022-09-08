@@ -1,4 +1,4 @@
-test_that("Test 1: sim_sglm returns an object of class data frame when run on sim_args
+test_that("Test 1: sim_sglm returns an object which contains an object of class data frame when run on sim_args
 using the data simulated in the Nested Designs section of of the Tidy Simulations
 vignette (Source:
           https://cran.r-project.org/web/packages/simglm/vignettes/tidy_simulation.html)",
@@ -34,7 +34,7 @@ randomeffect line of sim_arguments has been commented out (Source:
                          sample_size = list(level1 = 10, level2 = 20))))
             })
 
-test_that("Test 3: sim_sglm returns an object of class data frame when run on
+test_that("Test 3: sim_sglm returns an object which contains an object of class data frame when run on
 sim_args using the data simulated in the Generate Response Variable section of
 the Tidy Simulations vignette (Source:
           https://cran.r-project.org/web/packages/simglm/vignettes/tidy_simulation.html)",
