@@ -20,6 +20,15 @@ sim_sglm <- function(data = NULL,
   df_mod <- df_mod %>%
     dplyr::mutate(prior = prior)
 
+  #Collect model info
+  df_info <- list("sim_args" = sim_args,
+                  "prior" = prior,
+                  "mod_name" = mod_name)
+
+  #Collect output
+  Output <- list("df_mod" = df_mod,
+                 "df_info" = df_info)
+
   #Return df
-  return(df_mod)
+  return(Output)
 }
