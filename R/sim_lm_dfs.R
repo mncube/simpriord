@@ -23,7 +23,7 @@
 #' @param diste_p distribution for error term (previous data)
 #' @param paramse_p parameters for the error terms distribution (previous data)
 #' @param with_prior if with_prior = 1, generate data frames that contain main and previous data
-#' @param frames The number of data frame to generate
+#' @param frames The number of data frames to generate
 #' @param mod_name A list of model aliases
 #'
 #' @return A nested list of data frames (see sim_lm for more information)

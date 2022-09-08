@@ -75,7 +75,7 @@ The list should take the form list(int1 = list(coef = 1, v1 = "X1", v2 = "X2")) 
 
 \item{with_prior}{if with_prior = 1, generate data frames that contain main and previous data}
 
-\item{frames}{The number of data frame to generate}
+\item{frames}{The number of data frames to generate}
 
 \item{mod_name}{A list of model aliases}
 }
