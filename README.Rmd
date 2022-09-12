@@ -19,29 +19,11 @@ knitr::opts_chunk$set(
 <!-- badges: end -->
 
 Using Bayesian models with informative priors is a common strategy to deal with the limitations of
-statistical analysis with small sample size.  The goal of this package is to facilitate simulations
-of Bayesian models which incorporate previous data (i.e., pilot data, publicly available data, etc.)
-as prior information.  The package is inspired by three key resources.
+statistical analysis with small sample size.  One way to incorporate prior information into the model is by binding the data set from a previous study to the study's main data set.  The goal of this package is to streamline
+a workflow for running simulations to assess the performance of parameter estimation when the main and previous data
+come from different populations.
 
-The first resource is the Error Structures and Hyperparameters section of Cheung & Szpak (2021):
-
-  "Informative priors can influence the outcome of a model, especially if the data set is
-   small. Here, our last case study aims to test:
-    a) How different error structures and intra-population groups compare with each other
-    b) How much could hyperparameters sway the SIMMs estimation
-    c) What is considered a sufficient sample size that is robust enough to stand against
-    poorly informed hyperparameters"
-
-The second resource is paul.buerkner's first two posts in the Setting Informative Priors from
-Pilot Study for Lognormal Model thread on the discourse.mc-stan.org forums (https://discourse.mc-stan.org/t/setting-informative-priors-from-pilot-study-for-lognormal-model/4741):
-
-  "If you analyse your final data set including both data from pilot and main study, I wouldn’t let the       priors be informed too much by the data of the pilot study, because then you end up including this data    twice into your model (one as data and one as prior).
-
-   If you have the raw data of previous studies available, I would usually prefer putting all data into the    same model (with extended structure) instead of trying to use the posterior of one study as prior of the    other. The latter is really hard to do correctly."
-   
-   "With extended structure I mean modeling that the data came from two different studies (e.g., via an        additional factor in the model) unless the studies are exact replications with samples from the same       populeation."
-   
-The third resource is Dr. Gregory L. Snow's simulation code posted in the [R-sig-ME] Poer Analysis for Multi-level Models thread on the stat.ethz.ch forums (https://stat.ethz.ch/pipermail/r-sig-mixed-models/2009q1/001790.html).
+This document first goes over software setup and then it outlines the general workflow of the package.
 
 ## Installation
 
@@ -52,38 +34,111 @@ You can install the development version of simpriord from [GitHub](https://githu
 devtools::install_github("mncube/simpriord")
 ```
 
-## Simulate from a linear model
-
-Use the sim_lm function to simulate one data frame from a linear model.
+## Load Package
 
 ```{r example}
 library(simpriord)
-
-# Get data to run one linear model
-lm_df <- sim_lm()
-
-# Preview data
-head(lm_df$df_mod)
-
-# See model name and coefficients used to produce data
-print(lm_df$df_info)
 ```
 
+## Workflow for Assessing Parameter Estimation
 
-Use the sim_lm_dfs function to generate a list of data frames each of which contain main and previous data.
+Step 1: Create the main data sets and previous study data sets using the definitions for simglm's sim_args parameter.    
+
+Note: This example closely follows the data generating mechanism from the Generate Response Variable section of simglm's Tidy Simulation vignette (https://cran.r-project.org/web/packages/simglm/vignettes/tidy_simulation.html)
 
 ```{r}
-lm_dfs <- sim_lm_dfs(frames = 3,
-                     mod_name = list("mod1", "mod2", "mod3"))
+#Define data generating process for the main data's population
+args_main <- list(
+  formula = y ~ 1 + weight + age + sex,
+  fixed = list(weight = list(var_type = 'continuous', mean = 0, sd = 1),
+               age = list(var_type = 'ordinal', levels = 30:60),
+               sex = list(var_type = 'factor', levels = c('male', 'female'))),
+  error = list(variance = 25),
+  sample_size = 15,
+  reg_weights = c(2, 0.3, -0.1, 0.5))
 
-# Preview data for the second model
-head(lm_dfs$df_mod[[2]])
-tail(lm_dfs$df_mod[[2]])
-
-#See model name and coefficients used to produce second model data
-print(lm_dfs$df_info[[2]])
+#Define data generating process for the previous data's population 
+args_prior <- list(
+  formula = y ~ 1 + weight + age + sex,
+  fixed = list(weight = list(var_type = 'continuous', mean = 0, sd = 2),
+               age = list(var_type = 'ordinal', levels = 30:60),
+               sex = list(var_type = 'factor', levels = c('male', 'female'))),
+  error = list(variance = 25),
+  sample_size = 10,
+  reg_weights = c(2, 0.4, -0.2, 0.5))
 ```
 
-## Citations
 
-Cheung, C., & Szpak, P. (2021). Interpreting Past Human Diets Using Stable Isotope Mixing Models. In Journal of Archaeological Method and Theory (Vol. 28, Issue 4, pp. 1106–1142). https://doi.org/10.1007/s10816-020-09492-5 
+Step 2: Use the sim_sglm_dfs function to generate 25 dataframes from the lists defined in Step 1
+
+```{r}
+#Get dataframes
+grv_out <- sim_sglm_dfs(data_m = NULL,
+                        sim_args_m = args_main,
+                        data_p = NULL,
+                        sim_args_p = args_prior,
+                        with_prior = 1,
+                        frames = 25,
+                        mod_name = list("mod1"))
+```
+
+
+grv_out is the list object returned from sim_sglm_dfs.  The object contains the dataframes and the data generating information
+
+```{r}
+#Extract head and tail of the first dataframe 
+head(grv_out$df_mod[[1]])
+tail(grv_out$df_mod[[1]])
+
+#Extract data generating information for the first dataframe's main data
+grv_out$df_info[[1]]$main
+
+#Extract data generating information for the first dataframe's main data
+grv_out$df_info[[1]]$prior
+```
+
+
+Step 3: Use the sim_sglm_run function to fit the model specified in Step 1 extended to include a prior data indicator as a fixed effect:
+
+y ~ 1 + weight + age + sex + prior
+
+The model was fit to each dataset in grv_out$df_mod using brms with default priors.
+
+Note: To save time on computation this example set is using a small number of dataframes (with frames = 25 in step 2) and
+a small number of iterations (iter = 200).
+
+```{r}
+#Fit data to model
+sglm_mod_fits <- sim_sglm_run(df_list = list(grv_out), iter = 200)
+```
+
+
+sim_sglm_run returns a list object of parameter estimates.  Extract parameter estimates from grv_out$df_mod first dataframe as follows
+
+```{r}
+sglm_mod_fits$fits[[1]][[1]]
+```
+
+
+Step 4: Use the sim_sglm_comp function to assess parameter estimation based on the dissimilarity between the main data's population and the previous data's population.
+
+```{r}
+#Get comparisons
+sglm_comps <- sim_sglm_comp(fit_obj = sglm_mod_fits)
+```
+
+
+sim_sglm_comp returns the assessment the parameter estimates in sglm_mod_fits when compared to the main data's population parameters in Step 1's reg_weights on arg_main's list
+
+```{r}
+sglm_comps[["main"]][[1]][,c("term", "parameter", "bias", "bias_mcse", 
+                             "mse", "mse_mcse", "covered")]
+```
+
+
+The function also returns the parameter estimates compared to the previous population's parameters
+
+```{r}
+sglm_comps[["prior"]][[1]][,c("term", "parameter", "bias", "bias_mcse", 
+                             "mse", "mse_mcse", "covered")]
+```
