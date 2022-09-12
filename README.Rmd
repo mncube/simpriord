@@ -107,7 +107,7 @@ The model was fit to each dataset in grv_out$df_mod using brms with default prio
 Note: To save time on computation this example set is using a small number of dataframes (with frames = 25 in step 2) and
 a small number of iterations (iter = 200).
 
-```{r include=FALSE}
+```{r message=FALSE, warning=FALSE}
 #Fit data to model
 sglm_mod_fits <- sim_sglm_run(df_list = list(grv_out), iter = 200)
 ```
