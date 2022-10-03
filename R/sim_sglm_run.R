@@ -24,13 +24,25 @@ sim_sglm_run <- function(df_list, ...){
     info <- vector(mode = "list", length = length(df_mods$df_info))
 
     for(j in 1:length(df_mods$df_mod)){
+
       inform <- df_mods$df_info[[j]]
 
       #Prepare this iterations data frame from df_list
       df <- df_mods$df_mod[[j]]
 
-      #Create formula from df
-      model <- update(inform$main$sim_args$formula, reformulate(c(".", "prior")))
+      if (sum(df_mods$df_mod[[j]]$prior == 1) == 0){
+
+        #Create formula from df
+        #model <- update(inform$main$sim_args$formula, reformulate(c(".")))
+        model <- inform$sim_args$formula
+
+
+      } else {
+
+        #Create formula from df
+        model <- update(inform$main$sim_args$formula, reformulate(c(".", "prior")))
+
+      }
 
       #Run brm model on df
       fit <- brms::brm(formula = model,

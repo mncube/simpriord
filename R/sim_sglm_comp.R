@@ -15,10 +15,6 @@ sim_sglm_comp <- function(fit_obj, with_prior = 1){
   #Create local bindings for variables
   `"Intercept"` <- NULL
   `"prior"` <- NULL
-  `mod_infos[[j]]$main$sim_args$reg_weights` <- NULL
-  `mod_infos[[j]]$main$prior` <- NULL
-  `mod_infos[[j]]$prior$sim_args$reg_weights` <- NULL
-  `mod_infos[[j]]$prior$prior` <- NULL
   V1 <- NULL
   K <- NULL
   bias <- NULL
@@ -46,6 +42,18 @@ sim_sglm_comp <- function(fit_obj, with_prior = 1){
   var_t <- NULL
   var <- NULL
 
+  if (with_prior == 0){
+    `mod_infos[[j]]$sim_args$reg_weights` <- NULL
+    `mod_infos[[j]]$prior` <- NULL
+    `mod_infos[[j]]r$sim_args$reg_weights` <- NULL
+    `mod_infos[[j]]$prior` <- NULL
+  } else {
+    `mod_infos[[j]]$main$sim_args$reg_weights` <- NULL
+    `mod_infos[[j]]$main$prior` <- NULL
+    `mod_infos[[j]]$prior$sim_args$reg_weights` <- NULL
+    `mod_infos[[j]]$prior$prior` <- NULL
+  }
+
   #Initialize list to store fit dfs
   all_prior <- all_main <- vector(mode = "list", length = length(fit_obj$fits))
 
@@ -68,7 +76,16 @@ sim_sglm_comp <- function(fit_obj, with_prior = 1){
       tidy_fit <- broom.mixed::tidy(mod_fits[[j]])
 
       #Get model alias as isolated data frame
-      mod_name <- as.data.frame(mod_infos[[j]]$main$mod_name)
+      if (with_prior == 0){
+
+        mod_name <- as.data.frame(mod_infos[[j]]$mod_name)
+
+      } else {
+
+        mod_name <- as.data.frame(mod_infos[[j]]$main$mod_name)
+
+      }
+
       colnames(mod_name) <- "mod_name"
       #%>%
         #dplyr::rename(mod_name = `mod_infos[[j]]$prior$mod_name`)
@@ -78,20 +95,41 @@ sim_sglm_comp <- function(fit_obj, with_prior = 1){
       mod_int <- as.data.frame("Intercept") %>%
         dplyr::rename(Intercept = `"Intercept"`)
 
+
       #Get Prior as isolated data frame
       mod_prior <- as.data.frame("prior") %>%
         dplyr::rename(prior = `"prior"`)
 
-      #Get main parameter information
-      comp_main_parnames <- as.data.frame(t(cbind(mod_int,
-                                                  as.data.frame(strsplit(names(mod_infos[[j]]$main$sim_args$fixed), " ")),
-                                                  mod_prior))) %>%
-        dplyr::rename(parnames = V1)
+      if (with_prior == 0) {
 
-      comp_main_pars <- dplyr::bind_rows(as.data.frame(mod_infos[[j]]$main$sim_args$reg_weights) %>%
-                                           dplyr::rename(parameter = `mod_infos[[j]]$main$sim_args$reg_weights`),
-                                         as.data.frame(mod_infos[[j]]$main$prior) %>%
-                                           dplyr::rename(parameter = `mod_infos[[j]]$main$prior`))
+        #Get main parameter information
+        comp_main_parnames <- as.data.frame(t(cbind(mod_int,
+                                                    as.data.frame(strsplit(names(mod_infos[[j]]$sim_args$fixed), " ")),
+                                                    mod_prior))) %>%
+          dplyr::rename(parnames = V1) %>%
+          dplyr::filter(parnames != "prior")
+
+
+        comp_main_pars <- dplyr::bind_rows(as.data.frame(mod_infos[[j]]$sim_args$reg_weights) %>%
+                                             dplyr::rename(parameter = `mod_infos[[j]]$sim_args$reg_weights`),
+                                           as.data.frame(mod_infos[[j]]$prior) %>%
+                                             dplyr::rename(parameter = `mod_infos[[j]]$prior`)) %>%
+          dplyr::slice_head(n = -1)
+
+      } else {
+
+        #Get main parameter information
+        comp_main_parnames <- as.data.frame(t(cbind(mod_int,
+                                                    as.data.frame(strsplit(names(mod_infos[[j]]$main$sim_args$fixed), " ")),
+                                                    mod_prior))) %>%
+          dplyr::rename(parnames = V1)
+
+        comp_main_pars <- dplyr::bind_rows(as.data.frame(mod_infos[[j]]$main$sim_args$reg_weights) %>%
+                                             dplyr::rename(parameter = `mod_infos[[j]]$main$sim_args$reg_weights`),
+                                           as.data.frame(mod_infos[[j]]$main$prior) %>%
+                                             dplyr::rename(parameter = `mod_infos[[j]]$main$prior`))
+
+      }
 
       #Connect model fit with model info
       ### Come back and fix section with mod_infos[[j]]) == 1 | with_prior == 0
@@ -99,7 +137,11 @@ sim_sglm_comp <- function(fit_obj, with_prior = 1){
         comp_main <- cbind(tidy_fit %>% dplyr::slice_head(n = -1),
                            comp_main_parnames,
                            comp_main_pars)
-        comp_prior <- as.data.frame("No Prior")
+        #comp_prior <- as.data.frame("No Prior")
+
+        comp_prior <- comp_main
+        comp_prior[!is.na(comp_prior)] <- NA
+
       } else {
         comp_main <- cbind(tidy_fit %>% dplyr::slice_head(n = -1),
                            comp_main_parnames,
@@ -189,6 +231,9 @@ sim_sglm_comp <- function(fit_obj, with_prior = 1){
                           var = var_t, var_mcse, mse, mse_mcse, rmse, rmse_mcse,
                           covered) %>%
             dplyr::distinct()
+        } else {
+          res_prior <- res_main
+          res_prior[!is.na(res_prior)] <- NA
         }
       }
     }
