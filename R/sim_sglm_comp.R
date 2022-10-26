@@ -41,6 +41,8 @@ sim_sglm_comp <- function(fit_obj, with_prior = 1){
   var_mcse <- NULL
   var_t <- NULL
   var <- NULL
+  parnames <- NULL
+  effect <- NULL
 
   if (with_prior == 0){
     `mod_infos[[j]]$sim_args$reg_weights` <- NULL
@@ -134,7 +136,7 @@ sim_sglm_comp <- function(fit_obj, with_prior = 1){
       #Connect model fit with model info
       ### Come back and fix section with mod_infos[[j]]) == 1 | with_prior == 0
       if (length(mod_infos[[j]]) == 1 | with_prior == 0){
-        comp_main <- cbind(tidy_fit %>% dplyr::slice_head(n = -1),
+        comp_main <- cbind(tidy_fit %>% dplyr::filter(effect != "ran_pars"),#dplyr::slice_head(n = -1),
                            comp_main_parnames,
                            comp_main_pars)
         #comp_prior <- as.data.frame("No Prior")
@@ -143,7 +145,7 @@ sim_sglm_comp <- function(fit_obj, with_prior = 1){
         comp_prior[!is.na(comp_prior)] <- NA
 
       } else {
-        comp_main <- cbind(tidy_fit %>% dplyr::slice_head(n = -1),
+        comp_main <- cbind(tidy_fit %>% dplyr::filter(effect != "ran_pars"),#dplyr::slice_head(n = -1),
                            comp_main_parnames,
                            comp_main_pars)
 
@@ -157,7 +159,7 @@ sim_sglm_comp <- function(fit_obj, with_prior = 1){
                                            as.data.frame(mod_infos[[j]]$prior$prior) %>%
                                              dplyr::rename(parameter = `mod_infos[[j]]$prior$prior`))
 
-        comp_prior <- cbind(tidy_fit %>% dplyr::slice_head(n = -1),
+        comp_prior <- cbind(tidy_fit %>% dplyr::filter(effect != "ran_pars"),#dplyr::slice_head(n = -1),
                            comp_prior_parnames,
                            comp_prior_pars)
       }
