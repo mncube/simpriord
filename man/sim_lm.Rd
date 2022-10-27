@@ -2,7 +2,7 @@
 % Please edit documentation in R/sim_lm.R
 \name{sim_lm}
 \alias{sim_lm}
-\title{Simulate Data from a Linear Model}
+\title{sim_lm}
 \usage{
 sim_lm(
   n = 25,
@@ -52,7 +52,7 @@ independent variables (plus interactions if specified).  Second element is the
 model alias and input parameters (b0, b1:bj, prior indicator, plus interactions).
 }
 \description{
-Simulate Data from a Linear Model
+Simulate data from a linear model
 }
 \examples{
 #Build df using default parameters

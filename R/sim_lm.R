@@ -1,4 +1,6 @@
-#' Simulate Data from a Linear Model
+#' sim_lm
+#'
+#' Simulate data from a linear model
 #'
 #' @param n number of units
 #' @param b0 intercept

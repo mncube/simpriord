@@ -2,7 +2,7 @@
 % Please edit documentation in R/sim_lm_comp.R
 \name{sim_lm_comp}
 \alias{sim_lm_comp}
-\title{Compare Linear Model Performance Metrics}
+\title{sim_lm_comp}
 \usage{
 sim_lm_comp(fit_obj, with_prior = 1)
 }
@@ -17,5 +17,12 @@ and one top level list for the prior data.  Within each top level list, there is
 performance metrics for each model.
 }
 \description{
-Compare Linear Model Performance Metrics
+Compare linear model performance metrics from sim_lm_run model fits using
+measures of estimator performance found in the simhelpers' calc_absolute
+function.
+}
+\references{
+Joshi M, Pustejovsky J (2022). _simhelpers: Helper Functions for Simulation
+Studies_. R package version 0.1.2,
+<https://CRAN.R-project.org/package=simhelpers>.
 }

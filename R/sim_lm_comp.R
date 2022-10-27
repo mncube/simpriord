@@ -1,4 +1,13 @@
-#' Compare Linear Model Performance Metrics
+#' sim_lm_comp
+#'
+#' Compare linear model performance metrics from sim_lm_run model fits using
+#' measures of estimator performance found in the simhelpers' calc_absolute
+#' function.
+#'
+#' @references
+#' Joshi M, Pustejovsky J (2022). _simhelpers: Helper Functions for Simulation
+#' Studies_. R package version 0.1.2,
+#' <https://CRAN.R-project.org/package=simhelpers>.
 #'
 #' @param fit_obj A list of model fits built from the sim_lm_run function
 #'

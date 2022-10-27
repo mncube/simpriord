@@ -1,4 +1,6 @@
-#' Simulate Datasets from a Linear Model
+#' sim_lm_dfs
+#'
+#' Simulate datasets from linear models
 #'
 #' @param n_m number of units (main data)
 #' @param b0_m intercept (main data)

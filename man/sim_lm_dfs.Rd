@@ -2,7 +2,7 @@
 % Please edit documentation in R/sim_lm_dfs.R
 \name{sim_lm_dfs}
 \alias{sim_lm_dfs}
-\title{Simulate Datasets from a Linear Model}
+\title{sim_lm_dfs}
 \usage{
 sim_lm_dfs(
   n_m = 25,
@@ -83,7 +83,7 @@ The list should take the form list(int1 = list(coef = 1, v1 = "X1", v2 = "X2")) 
 A nested list of data frames (see sim_lm for more information)
 }
 \description{
-Simulate Datasets from a Linear Model
+Simulate datasets from linear models
 }
 \examples{
 five_frames <- sim_lm_dfs()
