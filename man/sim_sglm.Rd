@@ -2,7 +2,7 @@
 % Please edit documentation in R/sim_sglm.R
 \name{sim_sglm}
 \alias{sim_sglm}
-\title{Simulate Data Using simglm's sim_args Parameter}
+\title{sim_sglm}
 \usage{
 sim_sglm(data = NULL, sim_args, prior = 0, mod_name = "mod", ...)
 }
@@ -28,5 +28,9 @@ A list with the dataframe produced by the model specification
 (as an object named df_infor)
 }
 \description{
-Simulate Data Using simglm's sim_args Parameter
+Simulate data using simglm's sim_args parameter
+}
+\references{
+LeBeau B (2022). _simglm: Simulate Models Based on the Generalized Linear
+Model_. R package version 0.8.9, <https://CRAN.R-project.org/package=simglm>.
 }

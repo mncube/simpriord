@@ -1,12 +1,12 @@
 Package: simpriord
 Type: Package
 Title: Simulate Prior Data
-Version: 0.1.0
+Version: 1.0.0
 Author: Mackson Ncube
-Maintainer: Mackson Ncube <macksonncube@gmail.com>
-Description: Package to explore how data used as prior distribution can bias
-    results from a Bayesian model.  The package includes functions to streamline
-    building data sets and running brms models.
+Maintainer: Mackson Ncube <macksonncube.stats@gmail.com>
+Description: Package to explore how data used as prior information influences
+    parameter estimates from Bayesian models.  The package includes functions to 
+    streamline simulating data sets and running brms models.
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
@@ -16,7 +16,6 @@ Imports:
     broom.mixed,
     dplyr,
     magrittr,
-    roxygen2,
     simglm,
     stats,
     tidyselect

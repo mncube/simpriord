@@ -1,4 +1,10 @@
-#' Simulate Datasets Using simglm's sim_args Parameter
+#' sim_sglm_dfs
+#'
+#' Simulate main and previous datasets using simglm's sim_args parameter
+#'
+#' @references
+#' LeBeau B (2022). _simglm: Simulate Models Based on the Generalized Linear
+#' Model_. R package version 0.8.9, <https://CRAN.R-project.org/package=simglm>.
 #'
 #' @param data_m this parameter was taken from simglm:
 #' https://github.com/lebebr01/simglm/blob/main/R/fixef_sim.r

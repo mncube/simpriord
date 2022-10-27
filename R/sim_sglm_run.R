@@ -1,4 +1,11 @@
-#' Run brm simglm Models on List of Data Frames
+#' sim_sglm_run
+#'
+#' Run brm models on list of data frames built with sim_sglm_dfs
+#'
+#' @references
+#' Paul-Christian Bürkner (2017). brms: An R Package for Bayesian Multilevel
+#' Models Using Stan. Journal of Statistical Software, 80(1), 1-28.
+#' doi:10.18637/jss.v080.i01
 #'
 #' @param df_list a list of data frames built from sim_sglm_dfs
 #' @param ... pass parameters to brm function

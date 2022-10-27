@@ -1,11 +1,17 @@
-#' Compare Model Performance Metrics
+#' sim_sglm_comp
+#'
+#' Compare model performance metrics for sim_sglm_run model fits using measures
+#' of estimator performance found in the simhelpers' calc_absolute function.
+#'
+#' @references
+#' Joshi M, Pustejovsky J (2022). _simhelpers: Helper Functions for Simulation
+#' Studies_. R package version 0.1.2,
+#' <https://CRAN.R-project.org/package=simhelpers>.
 #'
 #' @param fit_obj Model fits built from the sim_sglm_run function
 #' @param with_prior Set to 0 if data does not contain prior data.
 #'
-#' @return  A nested list of performance metric data frames.  One top level list
-#' for the main data and one top level list for the prior data.  Within each top
-#' level list, there is one data frame of performance metrics for each
+#' @return  A nested list of performance metric data frames.
 #'
 #' @importFrom stats sd var
 #'

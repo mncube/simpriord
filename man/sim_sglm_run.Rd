@@ -2,7 +2,7 @@
 % Please edit documentation in R/sim_sglm_run.R
 \name{sim_sglm_run}
 \alias{sim_sglm_run}
-\title{Run brm simglm Models on List of Data Frames}
+\title{sim_sglm_run}
 \usage{
 sim_sglm_run(df_list, ...)
 }
@@ -15,5 +15,10 @@ sim_sglm_run(df_list, ...)
 a list of of objects containing brm model fits and model generating information
 }
 \description{
-Run brm simglm Models on List of Data Frames
+Run brm models on list of data frames built with sim_sglm_dfs
+}
+\references{
+Paul-Christian Bürkner (2017). brms: An R Package for Bayesian Multilevel
+Models Using Stan. Journal of Statistical Software, 80(1), 1-28.
+doi:10.18637/jss.v080.i01
 }

@@ -2,7 +2,7 @@
 % Please edit documentation in R/sim_sglm_dfs.R
 \name{sim_sglm_dfs}
 \alias{sim_sglm_dfs}
-\title{Simulate Datasets Using simglm's sim_args Parameter}
+\title{sim_sglm_dfs}
 \usage{
 sim_sglm_dfs(
   data_m = NULL,
@@ -41,5 +41,9 @@ simulate_randomeffect, simulate_error, or generate_response}
 A nested list of data frames (see sim_sglm for more information)
 }
 \description{
-Simulate Datasets Using simglm's sim_args Parameter
+Simulate main and previous datasets using simglm's sim_args parameter
+}
+\references{
+LeBeau B (2022). _simglm: Simulate Models Based on the Generalized Linear
+Model_. R package version 0.8.9, <https://CRAN.R-project.org/package=simglm>.
 }

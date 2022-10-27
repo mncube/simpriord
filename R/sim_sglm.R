@@ -1,4 +1,10 @@
-#' Simulate Data Using simglm's sim_args Parameter
+#' sim_sglm
+#'
+#' Simulate data using simglm's sim_args parameter
+#'
+#' @references
+#' LeBeau B (2022). _simglm: Simulate Models Based on the Generalized Linear
+#' Model_. R package version 0.8.9, <https://CRAN.R-project.org/package=simglm>.
 #'
 #' @param data this parameter was taken from simglm:
 #' https://github.com/lebebr01/simglm/blob/main/R/fixef_sim.r
@@ -28,7 +34,7 @@ sim_sglm <- function(data = NULL,
                   simglm::generate_response(sim_args),
                 silent = TRUE)
 
-  if(class (df_mod) == "try-error"){
+  if(inherits(df_mod, "try-error")){
     df_mod <- simglm::simulate_fixed(data = NULL, sim_args) %>%
       simglm::simulate_error(sim_args) %>%
       simglm::generate_response(sim_args)
