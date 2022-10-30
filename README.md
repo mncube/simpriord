@@ -36,7 +36,7 @@ library(simpriord)
 ## Workflow for Assessing Parameter Estimation
 
 Step 1: Create the main data sets and previous study data sets using the
-definitions for simglm’s sim\_args parameter.
+definitions for simglm’s sim_args parameter.
 
 Note: This example closely follows the data generating mechanism from
 the Generate Response Variable section of simglm’s Tidy Simulation
@@ -65,8 +65,8 @@ args_prior <- list(
   reg_weights = c(2, 0.4, -0.2, 0.5))
 ```
 
-Step 2: Use the sim\_sglm\_dfs function to generate 25 dataframes from
-the lists defined in Step 1
+Step 2: Use the sim_sglm_dfs function to generate 25 dataframes from the
+lists defined in Step 1
 
 ``` r
 #Get dataframes
@@ -79,48 +79,48 @@ grv_out <- sim_sglm_dfs(data_m = NULL,
                         mod_name = list("mod1"))
 ```
 
-grv\_out is the list object returned from sim\_sglm\_dfs. The object
+grv_out is the list object returned from sim_sglm_dfs. The object
 contains the dataframes and the data generating information
 
 ``` r
 #Extract head and tail of the first dataframe 
 head(grv_out$df_mod[[1]])
-#>   X.Intercept.      weight age sex_1    sex level1_id      error fixed_outcome
-#> 1            1  1.32168772  36     0 female         1  3.0722268     -1.203494
-#> 2            1 -0.32437622  46     0 female         2  0.5076302     -2.697313
-#> 3            1 -1.46386688  54     0 female         3 11.6259466     -3.839160
-#> 4            1 -0.01215356  41     0 female         4 -2.5679390     -2.103646
-#> 5            1 -0.03694367  43     1   male         5 -3.1366699     -1.811083
-#> 6            1  0.50508345  60     0 female         6  4.3585091     -3.848475
-#>   random_effects          y prior
-#> 1              0  1.8687331     0
-#> 2              0 -2.1896827     0
-#> 3              0  7.7867866     0
-#> 4              0 -4.6715851     0
-#> 5              0 -4.9477530     0
-#> 6              0  0.5100342     0
+#>   X.Intercept.     weight age sex_1    sex level1_id      error fixed_outcome
+#> 1            1  1.1622159  57     1   male         1 -0.5307605     -2.851335
+#> 2            1 -0.8527697  45     1   male         2 11.3373237     -2.255831
+#> 3            1  0.6297303  56     1   male         3  7.6474825     -2.911081
+#> 4            1  0.8455076  43     0 female         4 -6.3619951     -2.046348
+#> 5            1 -0.5295515  59     0 female         5 -4.5111203     -4.058865
+#> 6            1 -0.9682034  52     0 female         6  5.0411973     -3.490461
+#>   random_effects         y prior
+#> 1              0 -3.382096     0
+#> 2              0  9.081493     0
+#> 3              0  4.736402     0
+#> 4              0 -8.408343     0
+#> 5              0 -8.569986     0
+#> 6              0  1.550736     0
 tail(grv_out$df_mod[[1]])
-#>    X.Intercept.      weight age sex_1    sex level1_id      error fixed_outcome
-#> 20            1 -0.22064940  36     1   male         5   4.880667     -4.788260
-#> 21            1  0.01191317  57     1   male         6   4.133832     -8.895235
-#> 22            1  0.65826764  40     0 female         7 -11.424716     -5.736693
-#> 23            1 -0.51872362  37     1   male         8   1.857523     -5.107489
-#> 24            1 -1.06940196  47     0 female         9  -6.793569     -7.827761
-#> 25            1 -1.54847638  55     0 female        10  -3.359969     -9.619391
-#>    random_effects            y prior
-#> 20              0   0.09240773     1
-#> 21              0  -4.76140306     1
-#> 22              0 -17.16140904     1
-#> 23              0  -3.24996667     1
-#> 24              0 -14.62132975     1
-#> 25              0 -12.97935971     1
+#>    X.Intercept.     weight age sex_1    sex level1_id      error fixed_outcome
+#> 20            1  2.9319872  43     0 female         5  2.0168323     -5.427205
+#> 21            1 -0.4838845  44     0 female         6 -0.4006068     -6.993554
+#> 22            1  0.4934472  37     1   male         7 -6.1642994     -4.702621
+#> 23            1 -1.0229982  58     0 female         8 -4.0113959    -10.009199
+#> 24            1  2.2577675  39     1   male         9  3.7643140     -4.396893
+#> 25            1  1.9800547  47     1   male        10  3.8549397     -6.107978
+#>    random_effects          y prior
+#> 20              0  -3.410373     1
+#> 21              0  -7.394161     1
+#> 22              0 -10.866921     1
+#> 23              0 -14.020595     1
+#> 24              0  -0.632579     1
+#> 25              0  -2.253038     1
 
 #Extract data generating information for the first dataframe's main data
 grv_out$df_info[[1]]$main
 #> $sim_args
 #> $sim_args$formula
 #> y ~ 1 + weight + age + sex
-#> <environment: 0x0000000014e99458>
+#> <environment: 0x000001a3ce5db258>
 #> 
 #> $sim_args$fixed
 #> $sim_args$fixed$weight
@@ -170,12 +170,12 @@ grv_out$df_info[[1]]$main
 #> $mod_name
 #> [1] "mod1"
 
-#Extract data generating information for the first dataframe's main data
+#Extract data generating information for the first dataframe's prior data
 grv_out$df_info[[1]]$prior
 #> $sim_args
 #> $sim_args$formula
 #> y ~ 1 + weight + age + sex
-#> <environment: 0x0000000014e99458>
+#> <environment: 0x000001a3ce5db258>
 #> 
 #> $sim_args$fixed
 #> $sim_args$fixed$weight
@@ -226,12 +226,12 @@ grv_out$df_info[[1]]$prior
 #> [1] "mod1"
 ```
 
-Step 3: Use the sim\_sglm\_run function to fit the model specified in
-Step 1 extended to include a prior data indicator as a fixed effect:
+Step 3: Use the sim_sglm_run function to fit the model specified in Step
+1 extended to include a prior data indicator as a fixed effect:
 
 y \~ 1 + weight + age + sex + prior
 
-The model was fit to each dataset in grv\_out$df\_mod using brms with
+The model was fit to each dataset in grv_out\$df_mod using brms with
 default priors.
 
 Note: To save time on computation this example set is using a small
@@ -243,8 +243,8 @@ iterations (iter = 200).
 #sglm_mod_fits <- sim_sglm_run(df_list = list(grv_out), iter = 200)
 ```
 
-sim\_sglm\_run returns a list object of parameter estimates. Extract
-parameter estimates from grv\_out$df\_mod first dataframe as follows
+sim_sglm_run returns a list object of parameter estimates. Extract
+parameter estimates from grv_out\$df_mod first dataframe as follows
 
 ``` r
 sglm_mod_fits$fits[[1]][[1]]
@@ -257,22 +257,22 @@ sglm_mod_fits$fits[[1]][[1]]
 #> 
 #> Population-Level Effects: 
 #>           Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
-#> Intercept     1.98      5.56   -10.74    13.66 1.00      491      363
-#> weight       -0.61      0.95    -2.32     1.28 1.01      287      317
-#> age          -0.13      0.12    -0.37     0.13 1.00      499      322
-#> sexmale       3.05      2.33    -1.29     7.78 1.03      209      218
-#> prior        -6.21      2.80   -11.77    -0.25 1.02      167      120
+#> Intercept     3.87      6.73    -9.67    16.28 1.02      365      249
+#> weight        1.29      0.69    -0.09     2.61 1.00      558      304
+#> age          -0.13      0.13    -0.40     0.13 1.04      423      338
+#> sexmale       2.18      2.38    -2.31     7.07 1.03      173      159
+#> prior        -6.65      2.52   -11.18    -1.48 1.02      177      130
 #> 
 #> Family Specific Parameters: 
 #>       Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
-#> sigma     5.72      0.84     4.34     7.76 1.00      403      263
+#> sigma     5.44      0.83     4.13     7.17 1.01      236      288
 #> 
 #> Draws were sampled using sampling(NUTS). For each parameter, Bulk_ESS
 #> and Tail_ESS are effective sample size measures, and Rhat is the potential
 #> scale reduction factor on split chains (at convergence, Rhat = 1).
 ```
 
-Step 4: Use the sim\_sglm\_comp function to assess parameter estimation
+Step 4: Use the sim_sglm_comp function to assess parameter estimation
 based on the dissimilarity between the main data’s population and the
 previous data’s population.
 
@@ -281,21 +281,20 @@ previous data’s population.
 sglm_comps <- sim_sglm_comp(fit_obj = sglm_mod_fits)
 ```
 
-sim\_sglm\_comp returns the assessment the parameter estimates in
-sglm\_mod\_fits when compared to the main data’s population parameters
-in Step 1’s reg\_weights on arg\_main’s list
+sim_sglm_comp returns the assessment of the parameter estimates in
+sglm_mod_fits when compared to the main data’s population parameters in
+Step 1’s reg_weights on arg_main’s list
 
 ``` r
 sglm_comps[["main"]][[1]][,c("term", "parameter", "bias", "bias_mcse", 
                              "mse", "mse_mcse", "covered")]
-#> # A tibble: 5 x 7
+#> # A tibble: 4 × 7
 #>   term        parameter    bias bias_mcse     mse mse_mcse covered
 #>   <chr>           <dbl>   <dbl>     <dbl>   <dbl>    <dbl>   <dbl>
-#> 1 (Intercept)       2    2.71      1.04   33.5     7.93       0.96
-#> 2 age              -0.1 -0.0633    0.0222  0.0158  0.00340    0.96
-#> 3 prior             0   -4.36      0.544  26.1     4.81       0.56
-#> 4 sexmale           0.5  0.254     0.476   5.51    1.04       0.92
-#> 5 weight            0.3 -0.105     0.164   0.658   0.155      0.96
+#> 1 (Intercept)       2    1.44      1.16   34.5    13.9        0.96
+#> 2 age              -0.1 -0.0306    0.0261  0.0173  0.00598    0.92
+#> 3 sexmale           0.5 -0.383     0.431   4.61    0.849      1   
+#> 4 weight            0.3  0.115     0.174   0.744   0.212      0.92
 ```
 
 The function also returns the parameter estimates compared to the
@@ -304,12 +303,11 @@ previous population’s parameters
 ``` r
 sglm_comps[["prior"]][[1]][,c("term", "parameter", "bias", "bias_mcse", 
                              "mse", "mse_mcse", "covered")]
-#> # A tibble: 5 x 7
+#> # A tibble: 4 × 7
 #>   term        parameter    bias bias_mcse     mse mse_mcse covered
 #>   <chr>           <dbl>   <dbl>     <dbl>   <dbl>    <dbl>   <dbl>
-#> 1 (Intercept)       2    2.71      1.04   33.5     7.93       0.96
-#> 2 age              -0.2  0.0367    0.0222  0.0131  0.00360    0.92
-#> 3 prior             1   -5.36      0.544  35.8     5.85       0.36
-#> 4 sexmale           0.5  0.254     0.476   5.51    1.04       0.92
-#> 5 weight            0.4 -0.205     0.164   0.689   0.178      0.96
+#> 1 (Intercept)       2    1.44      1.16   34.5    13.9        0.96
+#> 2 age              -0.2  0.0694    0.0261  0.0211  0.00780    0.88
+#> 3 sexmale           0.5 -0.383     0.431   4.61    0.849      1   
+#> 4 weight            0.4  0.0154    0.174   0.731   0.225      0.88
 ```

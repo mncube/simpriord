@@ -93,7 +93,7 @@ tail(grv_out$df_mod[[1]])
 #Extract data generating information for the first dataframe's main data
 grv_out$df_info[[1]]$main
 
-#Extract data generating information for the first dataframe's main data
+#Extract data generating information for the first dataframe's prior data
 grv_out$df_info[[1]]$prior
 ```
 
@@ -134,7 +134,7 @@ sglm_comps <- sim_sglm_comp(fit_obj = sglm_mod_fits)
 ```
 
 
-sim_sglm_comp returns the assessment the parameter estimates in sglm_mod_fits when compared to the main data's population parameters in Step 1's reg_weights on arg_main's list
+sim_sglm_comp returns the assessment of the parameter estimates in sglm_mod_fits when compared to the main data's population parameters in Step 1's reg_weights on arg_main's list
 
 ```{r}
 sglm_comps[["main"]][[1]][,c("term", "parameter", "bias", "bias_mcse", 
