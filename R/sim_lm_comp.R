@@ -90,12 +90,16 @@ sim_lm_comp <- function(fit_obj, with_prior = 1){
                            t(mod_infos[[j]][mod_infos[[j]]$prior == 0,]),
                            mod_name) %>%
           dplyr::rename(parameter = `1`) %>%
-          dplyr::slice_head(n = -1)
+          dplyr::slice_head(n = -1) %>%
+          #Remove prior from comp results
+          dplyr::filter(term != "prior")
         comp_prior <- cbind(tidy_fit,
                             t(mod_infos[[j]][mod_infos[[j]]$prior == 1,]),
                             mod_name) %>%
           dplyr::rename(parameter = `2`) %>%
-          dplyr::slice_head(n = -1)
+          dplyr::slice_head(n = -1) %>%
+          #Remove prior from comp results
+          dplyr::filter(term != "prior")
       }
 
       #Return results from each simulation

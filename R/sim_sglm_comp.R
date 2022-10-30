@@ -144,7 +144,8 @@ sim_sglm_comp <- function(fit_obj, with_prior = 1){
       if (length(mod_infos[[j]]) == 1 | with_prior == 0){
         comp_main <- cbind(tidy_fit %>% dplyr::filter(effect != "ran_pars"),#dplyr::slice_head(n = -1),
                            comp_main_parnames,
-                           comp_main_pars)
+                           comp_main_pars) %>% #Try to remove prior
+          dplyr::filter(effect != "prior")
         #comp_prior <- as.data.frame("No Prior")
 
         comp_prior <- comp_main
@@ -153,7 +154,9 @@ sim_sglm_comp <- function(fit_obj, with_prior = 1){
       } else {
         comp_main <- cbind(tidy_fit %>% dplyr::filter(effect != "ran_pars"),#dplyr::slice_head(n = -1),
                            comp_main_parnames,
-                           comp_main_pars)
+                           comp_main_pars) %>%
+          #Try to remove prior
+          dplyr::filter(term != "prior")
 
         comp_prior_parnames <- as.data.frame(t(cbind(mod_int,
                                                     as.data.frame(strsplit(names(mod_infos[[j]]$prior$sim_args$fixed), " ")),
@@ -167,7 +170,9 @@ sim_sglm_comp <- function(fit_obj, with_prior = 1){
 
         comp_prior <- cbind(tidy_fit %>% dplyr::filter(effect != "ran_pars"),#dplyr::slice_head(n = -1),
                            comp_prior_parnames,
-                           comp_prior_pars)
+                           comp_prior_pars) %>%
+          #Try to remove prior
+          dplyr::filter(term != "prior")
       }
 
       #Return results from each simulation
